@@ -15,10 +15,13 @@ class Lang
      */
     public function handle($request, Closure $next)
     {
-        app()->setLocale(request('lang', session('lang', 'en')));
+        $defaultLang = config('app.locale', 'en');
+        app()->setLocale(request('lang', session('lang', $defaultLang)));
+
         if (request('lang')) {
             session(['lang' => request('lang')]);
         }
+
         return $next($request);
     }
 }
