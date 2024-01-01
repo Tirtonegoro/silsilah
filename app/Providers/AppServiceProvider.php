@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
         require_once app_path() . '/Helpers/functions.php';
 
         // Always redirect to https.
-        if($this->app->environment() === 'production') {
+        if ($this->app->environment() === 'production') {
             $this->app['request']->server->set('HTTPS', true);
         }
 
@@ -31,6 +32,21 @@ class AppServiceProvider extends ServiceProvider
 
             return $user && !\Hash::check($value, $user->password);
         });
+
+        $this->prepareLocaleOptions();
+    }
+
+    protected function prepareLocaleOptions(): void
+    {
+        $locales = config('app.available_locales', ['en', 'id']);
+
+        if (is_string($locales)) {
+            $locales = explode(',', $locales);
+            array_walk($locales, 'trim');
+        }
+
+        View::share('available_locales', $locales);
+
     }
 
     /**

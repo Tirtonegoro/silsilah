@@ -104,6 +104,10 @@ return [
 
     'fallback_locale' => 'en',
 
+
+
+    'available_locales' => env('AVAILABLE_LOCALES', ['en', 'id', 'ur']),
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
