@@ -23,13 +23,8 @@
                 <li><a href="{{ route('birthdays.index') }}">{{ __('birthday.birthday') }}</a></li>
             </ul>
 
-            <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
-                <?php $mark = (preg_match('/\?/', url()->current())) ? '&' : '?';?>
-                <li><a href="{{ url(url()->current() . $mark . 'lang=en') }}">en</a></li>
-                <li><a href="{{ url(url()->current() . $mark . 'lang=id') }}">id</a></li>
-                <li><a href="{{ url(url()->current() . $mark . 'lang=ur') }}">ur</a></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>
@@ -60,6 +55,16 @@
                     </li>
                 @endif
             </ul>
+
+            <form class="navbar-form navbar-right" style="display: flex; align-items: center; justify-content: center; height: 36px;">
+                <div class="form-group">
+                    <select name="lang" id="lang" onchange="this.form.submit()">
+                        @foreach ($available_locales as $lang)
+                        <option value="{{ $lang }}" {{ $lang == app()->getLocale() ? 'selected="selected"' : '' }}>{{ $lang }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </form>
         </div>
     </div>
 </nav>
